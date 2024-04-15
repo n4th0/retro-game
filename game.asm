@@ -56,12 +56,14 @@ pared: .word
 0x10010FA4, 0x10010FA8, 0x10010FAC, 0x10010FB0, 0x10010FB4, 0x10010FB8, 0x10010FBC, 0x10010FC0, 0x10010FC4, 0x10010FC8, 0x10010FCC, 0x10010FD0, 0x10010FD4, 0x10010FD8, 0x10010FDC, 
 0x10010FE0, 0x10010FE4, 0x10010FE8, 0x10010FEC, 0x10010FF0, 0x10010FF4, 0x10010FF8, 0x10010FFC 
 posicion: .word 0x10010084  			# guarda la posicion de plman 
-posicionEnemigo: .word 0x10010ffc 		# guarda la posicion del enemigo 
+posicionEnemigo: .word 0x100103D4, 0x100104BC, 0x10010714, 0x10010BA4 		# guarda la posicion del enemigo 
 posicionZonaSegura: .word 0x10010f78 	# guarda la posicion de la zona segura 
+mensajeVictoria: .asciiz "\n\n\nEnhorabuena !!! \nHas ganado !!!!!\n"
+mensajeDerrota:  .asciiz"\n\n\nLástima, inténtalo otra vez..."
 
 .eqv fondo 		0x000000
 .eqv personaje 	0xffff00
-.eqv enemigo 	0xff0000
+.eqv enemigoC 	0xff0000
 .eqv paredesC 	0xffffff
 .eqv zonaSegC 	0x00ff00
 .eqv numParedes	458
@@ -107,11 +109,44 @@ sigue:
 	li $t0, personaje
 	sw $t0, 0($s1)
 
+	li $t0, enemigoC
+	la $t1, posicionEnemigo
+
+	lw $t2, 0($t1)
+	sw $t0, 0($t2)
+
+	lw $t2, 4($t1)
+	sw $t0, 0($t2)
+
+	lw $t2, 8($t1)
+	sw $t0, 0($t2)
+
+	lw $t2, 12($t1)
+	sw $t0, 0($t2)
+
+
+
+
 	j bucle
 
-fin:
+
+
+finV:
+la $a0, mensajeVictoria
+li $v0, 4
+syscall
+
 li $v0, 10
 syscall
+
+finD:
+la $a0, mensajeDerrota
+li $v0, 4
+syscall
+
+li $v0, 10
+syscall
+
 ####################################
 
 manejoInput:
@@ -140,8 +175,11 @@ j sigue
 irDerecha:
 # se comprueba si se va a chocar con una pared
 lw $t0, 4($s1)
-subi $t0, $t0, 0xffffff
-beqz $t0, sigue # si se ha chocado se vuelve al bucle
+subi $t1, $t0, 0xffffff
+beqz $t1, sigue # si se ha chocado se vuelve al bucle
+
+subi $t1, $t0, zonaSegC
+beqz $t1, finV
 
 addi $s1, $s1, 4 # si no se actualiza la posicion
 j vueltaD
@@ -150,8 +188,12 @@ j vueltaD
 irIzquierda:
 # se comprueba si se va a chocar con una pared
 lw $t0, -4($s1)
-subi $t0, $t0, 0xffffff
-beqz $t0, sigue # si se ha chocado se vuelve al bucle
+
+subi $t1, $t0, 0xffffff
+beqz $t1, sigue # si se ha chocado se vuelve al bucle
+
+subi $t1, $t0, zonaSegC
+beqz $t1, finV
 
 subi $s1, $s1, 4# si no se actualiza la posicion
 j vueltaI
@@ -160,8 +202,11 @@ j vueltaI
 irArriba:
 # se comprueba si se va a chocar con una pared
 lw $t0, -128($s1)
-subi $t0, $t0, 0xffffff
-beqz $t0, sigue # si se ha chocado se vuelve al bucle
+subi $t1, $t0, 0xffffff
+beqz $t1, sigue # si se ha chocado se vuelve al bucle
+
+subi $t1, $t0, zonaSegC
+beqz $t1, finV
 
 subi $s1, $s1, 128 # si no se actualiza la posicion
 j vueltaAr
@@ -170,8 +215,11 @@ j vueltaAr
 irAbajo:
 # se comprueba si se va a chocar con una pared
 lw $t0, 128($s1)
-subi $t0, $t0, 0xffffff
-beqz $t0, sigue # si se ha chocado se vuelve al bucle
+subi $t1, $t0, 0xffffff
+beqz $t1, sigue # si se ha chocado se vuelve al bucle
+
+subi $t1, $t0, zonaSegC
+beqz $t1, finV
 
 addi $s1, $s1, 128 # si no se actualiza la posicion
 j vueltaAb
@@ -182,7 +230,7 @@ j vueltaAb
 # hay que actualizar esto
 pintarEnemigo:
 
-li $t0, enemigo
+li $t0, enemigoC
 sw $t0, 0($s2)
 li $t0, fondo
 
