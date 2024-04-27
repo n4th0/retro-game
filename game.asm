@@ -108,6 +108,8 @@ sw $t0, 0($s3)
 #############################
 bucle:
 
+	la $s2, posicionEnemigo # se actualiza el valor de $s2 en cada iteración ya que cambia en la funcion
+
 	# TODO debería pedirlo por consola??? 
 	li $v0, 12
 	syscall
@@ -117,12 +119,16 @@ bucle:
 	# se ponen negro las entidades
 	li $t0, fondo
 	sw $t0, 0($s1) 
+
+
 	j pintarEnemigos
 siguePE:
 
-	la $s2, posicionEnemigo # se actualiza el valor de $s2 en cada iteración ya que cambia en la funcion
 	j actualizarEnemigos
 vueltaE:
+
+	j pintarEnemigos2
+siguePE2:
 
 	# actualiza la posicion del personaje
 	j manejoInput
@@ -131,10 +137,6 @@ sigueMI:
 
 	li $t0, personajeC # se pinta el personaje
 	sw $t0, 0($s1)
-
-	li $t1, enemigoC
-	j pintarEnemigos2
-siguePE2:
 
 	addi $s4, $s4, 1 # incrementa los estados 
 
@@ -263,12 +265,12 @@ j vueltaAb
 
 pintarEnemigos:
 li $t1, fondo
+
 move $t2, $s2
 li $t3, 0 # contador 
 li $t4, 8
 
 bucleEnemigos: 
-
 lw $t0, 0($t2)
 sw $t1, 0($t0)
 
@@ -280,13 +282,13 @@ j siguePE
 
 #################
 pintarEnemigos2:
-li $t1, fondo
+li $t1, enemigoC
+
 move $t2, $s2
 li $t3, 0 # contador 
 li $t4, 8
 
 bucleEnemigos2: 
-li $t1, enemigoC
 lw $t0, 0($t2)
 sw $t1, 0($t0)
 
