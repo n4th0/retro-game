@@ -7,16 +7,23 @@
 # 
 # 
 # bucle
-# se pregunta (se obtiene)
+# se pregunta al usuario por consola virtual (se obtiene dirección)
 # se pone todas las entidades a negro
-# aritmetica
+# aritmetica de los enemigos 
+# se ponen los enemigos a su color 
+# aritmetica del usuario
 # colisiones
 # se pintan
 # vuelta al bucle
 # 
 # 
 # 
-# 
+# para ejecutarlo poner: 
+# unit width in pixels 16
+# unit height in pixels 16
+# display width in pixels 512
+# display height in pixels 512
+# base address for display 0x10010000
 # 
 # 
 # 
@@ -78,7 +85,7 @@ mensajeDerrota:  .asciiz "\n\n\nLástima, inténtalo otra vez..."
 
 # direcciones de memoria 
 lw $s1, posicion
-la $s2, posicionEnemigo # habrá que actualizar esto para obtener las posiciones correspondientes TODO 
+la $s2, posicionEnemigo  
 lw $s3, posicionZonaSegura
 li $s4, 0 # contador especial para los enemigos
 li $s5, 12 # cantidad de estados que tienen los enemigos (y por ende cantidad de movimientos que tienen)
@@ -110,7 +117,7 @@ bucle:
 
 	la $s2, posicionEnemigo # se actualiza el valor de $s2 en cada iteración ya que cambia en la funcion
 
-	# TODO debería pedirlo por consola??? 
+	# TODO debería pedirlo por consola???  (ni de puta coña)
 	li $v0, 12
 	syscall
 
@@ -302,7 +309,39 @@ actualizarEnemigos:
 
 subi $t1, $s4, 0
 bne $t1, $zero, cont1
-# actualizar los enemigos con el lw y el sw
+# actualizar los enemigos con el lw y el sw TODO
+
+lw $t2, 0($s2)
+addi $t2, $t2, 4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, 4
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, 128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, 4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, 128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, 4
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, 4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, 4
+sw $t2, 28($s2)
 
 # lw $t2, 0($s2)
 # sw $t1, 0($t2)
@@ -318,6 +357,35 @@ lw $t2, 0($s2)
 addi $t2, $t2, 4
 sw $t2, 0($s2)
 
+lw $t2, 4($s2)
+addi $t2, $t2, 4
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, 128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, 4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, 128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, 4
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, 4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, 4
+sw $t2, 28($s2)
+
+
 
 # actualizar los enemigos con el lw y el sw
 j vueltaE
@@ -325,6 +393,38 @@ cont2:
 subi $t1, $s4, 2
 bne $t1, $zero, cont3
 
+
+lw $t2, 0($s2)
+addi $t2, $t2, 4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, 4
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, 128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, 4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, 128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, 4
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, 4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, 4
+sw $t2, 28($s2)
 # actualizar los enemigos con el lw y el sw
 j vueltaE
 cont3:
@@ -332,48 +432,304 @@ subi $t1, $s4, 3
 bne $t1, $zero, cont4
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, 4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, 128
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, 128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, 4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, 128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, 128
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, 4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, 4
+sw $t2, 28($s2)
 j vueltaE
 cont4:
 subi $t1, $s4, 4
 bne $t1, $zero, cont5
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, 4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, 128
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, 128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, 4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, 128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, 128
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, 4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, 4
+sw $t2, 28($s2)
 j vueltaE
 cont5:
 subi $t1, $s4, 5
 bne $t1, $zero, cont6
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, 4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, 128
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, 128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, 4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, 128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, 128
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, 4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, 4
+sw $t2, 28($s2)
 j vueltaE
 cont6:
 subi $t1, $s4, 6
 bne $t1, $zero, cont7
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, -4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, -4
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, -128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, -4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, -128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, -4
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, -4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, -4
+sw $t2, 28($s2)
 j vueltaE
 cont7:
 subi $t1, $s4, 7
 bne $t1, $zero, cont8
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, -4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, -4
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, -128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, -4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, -128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, -4
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, -4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, -4
+sw $t2, 28($s2)
 j vueltaE
 cont8:
 subi $t1, $s4, 8
 bne $t1, $zero, cont9
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, -4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, -4
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, -128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, -4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, -128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, -4
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, -4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, -4
+sw $t2, 28($s2)
 j vueltaE
 cont9:
 subi $t1, $s4, 9
 bne $t1, $zero, cont10
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, -4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, -128
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, -128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, -4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, -128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, -128
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, -4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, -4
+sw $t2, 28($s2)
 j vueltaE
 cont10:
 subi $t1, $s4, 10
 bne $t1, $zero, cont11
 
 # actualizar los enemigos con el lw y el sw
+
+lw $t2, 0($s2)
+addi $t2, $t2, -4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, -128
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, -128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, -4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, -128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, -128
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, -4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, -4
+sw $t2, 28($s2)
 
 j vueltaE
 cont11:
@@ -383,7 +739,40 @@ bne $t1, $zero, cont12
 cont12: # si llega aqui, es que no es ninguno de los anteriores
 # actualizar los enemigos con el lw y el sw
 
+lw $t2, 0($s2)
+addi $t2, $t2, -4
+sw $t2, 0($s2)
+
+lw $t2, 4($s2)
+addi $t2, $t2, -128
+sw $t2, 4($s2)
+
+lw $t2, 8($s2)
+addi $t2, $t2, -128
+sw $t2, 8($s2)
+
+lw $t2, 12($s2)
+addi $t2, $t2, -4
+sw $t2, 12($s2)
+
+lw $t2, 16($s2)
+addi $t2, $t2, -128
+sw $t2, 16($s2)
+
+lw $t2, 20($s2)
+addi $t2, $t2, -128
+sw $t2, 20($s2)
+
+lw $t2, 24($s2)
+addi $t2, $t2, -4
+sw $t2, 24($s2)
+
+lw $t2, 28($s2)
+addi $t2, $t2, -4
+sw $t2, 28($s2)
+
 j vueltaE
+
 
 
 
