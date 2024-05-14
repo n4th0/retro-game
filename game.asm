@@ -123,7 +123,6 @@ bucle:
 
 	move $a0, $v0
 
-	# se ponen negro las entidades
 	li $t0, fondo
 	sw $t0, 0($s1) 
 
@@ -140,6 +139,9 @@ siguePE2:
 	# actualiza la posicion del personaje
 	j manejoInput
 sigueMI:
+
+	j manejoInput2
+sigueMI2:
 
 
 	li $t0, personajeC # se pinta el personaje
@@ -208,9 +210,6 @@ beqz $t1, sigueMI # si se ha chocado se vuelve al bucle
 subi $t1, $t0, zonaSegC # por si colisiona con la zona segura
 beqz $t1, finV
 
-subi $t1, $t0, enemigoC # por si colisiona con algún enemigo
-beqz $t1, finD
-
 addi $s1, $s1, 4 # si no se actualiza la posicion
 j vueltaD
 
@@ -224,9 +223,6 @@ beqz $t1, sigueMI # si se ha chocado se vuelve al bucle
 
 subi $t1, $t0, zonaSegC # por si colisiona con la zona segura
 beqz $t1, finV
-
-subi $t1, $t0, enemigoC # por si colisiona con algún enemigo
-beqz $t1, finD
 
 subi $s1, $s1, 4# si no se actualiza la posicion
 j vueltaI
@@ -242,9 +238,6 @@ beqz $t1, sigueMI # si se ha chocado se vuelve al bucle
 subi $t1, $t0, zonaSegC # por si colisiona con la zona segura
 beqz $t1, finV
 
-subi $t1, $t0, enemigoC # por si colisiona con algún enemigo
-beqz $t1, finD
-
 subi $s1, $s1, 128 # si no se actualiza la posicion
 j vueltaAr
 
@@ -256,14 +249,20 @@ lw $t0, 128($s1)
 subi $t1, $t0, 0xffffff
 beqz $t1, sigueMI # si se ha chocado se vuelve al bucle
 
-subi $t1, $t0, enemigoC # por si colisiona con algún enemigo
-beqz $t1, finV
-
 subi $t1, $t0, zonaSegC # por si colisiona con la zona segura
 beqz $t1, finD
 
 addi $s1, $s1, 128 # si no se actualiza la posicion
 j vueltaAb
+
+
+manejoInput2:
+
+lw $t2, 0($s1)
+subi $t1, $t2, enemigoC # por si colisiona con la zona segura
+beqz $t1, finD
+
+j sigueMI2
 
 
 ########################################
